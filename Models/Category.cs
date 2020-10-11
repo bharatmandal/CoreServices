@@ -11,8 +11,9 @@ namespace CoreServices.Models
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
+                public string Name { get; set; }
         public string Slug { get; set; }
+                    public string CategoryDetail { get; set; }
 
         public virtual ICollection<Post> Post { get; set; }
     }

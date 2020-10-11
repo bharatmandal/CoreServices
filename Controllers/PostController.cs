@@ -131,5 +131,42 @@ namespace CoreServices.Controllers
             return BadRequest();
         }
 
+        [HttpPost]
+        [Route("AddTestTable")]
+        public async Task<IActionResult> AddTestTable([FromBody] TestTable model)
+        {
+            if (ModelState.IsValid)
+            {
+               var TestTableID= await postRepository.AddTestTable(model);
+                return Ok(TestTableID);
+            }
+            return BadRequest();
+            
+        }
+
+        [HttpGet]
+        [Route("UpdateTestTableBySP")]
+        public async Task UpdateTestTableBySP()
+        {
+            try
+            {
+                await postRepository.UpdateTestTableBySP();
+                return ;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
+        }
+        [HttpGet]
+        [Route("RetrieveTestTableBySP")]
+        public async Task<List<string>> RetrieveTestTableBySP()
+        {
+           var itemlist= await postRepository.RetrieveTestTableBySP();
+            return itemlist;
+        }
+
     }
 }

@@ -15,24 +15,56 @@ namespace CoreServices.Models
         {
         }
 
+        public virtual DbSet<Address> Address { get; set; }
         public virtual DbSet<Category> Category { get; set; }
         public virtual DbSet<Post> Post { get; set; }
-        public virtual DbSet<Sp_GetAllPost> Sp_GetAllPost { get; set; }
 
-        //        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //        {
-        //            if (!optionsBuilder.IsConfigured)
-        //            {
-        //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-        //                optionsBuilder.UseSqlServer("Server=DESKTOP-8HR35B4;Database=BlogDB;Trusted_Connection=True;");
-        //            }
-        //        }
+        public virtual DbSet<TestTable> TestTable { get; set; }
+
+//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//        {
+//            if (!optionsBuilder.IsConfigured)
+//            {
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//                optionsBuilder.UseSqlServer("Server=DESKTOP-8HR35B4;Database=BlogDB;Trusted_Connection=True;");
+//            }
+//        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Address>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.Property(e => e.AddressId)
+                    .HasColumnName("Address_ID")
+                    .HasColumnType("numeric(18, 0)");
+
+                entity.Property(e => e.City)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Country)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StateCode)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Street)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Category>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CategoryDetail)
+                    .HasColumnName("Category_detail")
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Name)
                     .HasColumnName("NAME")
@@ -59,7 +91,7 @@ namespace CoreServices.Models
                     .HasColumnName("DESCRIPTION")
                     .IsUnicode(false);
 
-                entity.Property(e => e.Title)
+                    entity.Property(e => e.Title)
                     .HasColumnName("TITLE")
                     .HasMaxLength(2000)
                     .IsUnicode(false);
@@ -69,9 +101,6 @@ namespace CoreServices.Models
                     .HasForeignKey(d => d.CategoryId)
                     .HasConstraintName("FK__Post__CATEGORY_I__1273C1CD");
             });
-
-            // [Bharat Mandal]: Regster store procedure custom object. 
-            modelBuilder.Entity<Sp_GetAllPost>().HasNoKey();
 
             OnModelCreatingPartial(modelBuilder);
         }

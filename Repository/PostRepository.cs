@@ -162,5 +162,54 @@ namespace CoreServices.Repository
                 await db.SaveChangesAsync();
             }
         }
+
+        public async Task<int> AddTestTable(TestTable testTable)
+        {
+            if (db != null)
+            {
+
+                try
+                {
+                    await db.TestTable.AddAsync(testTable);
+                    await db.SaveChangesAsync();
+                    return testTable.Id;
+                }
+                catch (Exception ex)
+                {
+
+                    throw;
+                }
+            }
+            return 0;
+        }
+
+        Task IPostRepository.UpdateTestTableBySP()
+        {
+            try
+            {
+                var recid= db.Database.ExecuteSqlRawAsync("InsertTestTable");
+                return recid;
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
+        }
+
+        public async Task<List<string>>  RetrieveTestTableBySP()
+        {
+            List<string> mylist= new List<string>();
+            mylist.Add("m1");
+            mylist.Add("m2");
+            mylist.Add("m3");
+            mylist.Add("m4");
+
+            return  mylist;
+            //List<ItemList>= await db.Database.ExecuteSqlRawAsync("RetrieveTestTable");
+            //return ItemList;
+        }
     }
 }
