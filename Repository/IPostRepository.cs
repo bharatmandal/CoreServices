@@ -17,5 +17,8 @@ namespace CoreServices.Repository
         Task<int> AddPost(Post post);
         Task UpdatePost(Post post);
         Task<int> DeletePost(int? postid);
+        Task<int> AddTestTable(TestTable testTable);
+        Task UpdateTestTableBySP();
+        Task<List<string>> RetrieveTestTableBySP();
     }
 }
